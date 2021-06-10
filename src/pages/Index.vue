@@ -4,7 +4,7 @@
       <q-linear-progress :value="time / 100" color="warning" class="q-mt-md" />
       <h4>您的分數:{{you}}</h4>
       <h4>敵人的分數:{{enemy}}</h4>
-      <h3>{{n}} + {{m}} = ?</h3>
+      <h3>{{n}} {{ type == 'p' ? '+' : '-'}} {{m}} = ?</h3>
       <q-input type="number" v-model="ans" @input = "check()"/>
       <q-btn color="primary" size ="xl" v-if = "win" @click="again()">你勝利了，按此重來</q-btn>
     </div>
@@ -23,15 +23,25 @@ export default {
       n:3,
       m:4,
       ans: null,
-      win: false
+      win: false,
+      type: 'p'
     }
   },
   methods: {
     check() {
-      if (this.ans == this.n + this.m) {
-        this.you++;
-        this.time = 0;
-        this.reset()
+      if (this.type == 'p') {
+        if (this.ans == this.n + this.m) {
+          this.you++;
+          this.time = 0;
+          this.reset()
+        }
+      }
+      if (this.type == 'm') {
+        if (this.ans == this.n - this.m) {
+          this.you++;
+          this.time = 0;
+          this.reset()
+        }
       }
       if (this.you > this.enemy + 10) {
         this.win = true
@@ -42,7 +52,8 @@ export default {
       this.reset()
     },
     reset() {
-      this.n = Math.floor(Math.random()*this.d) + 1;
+      this.type = ['p','m'][Math.floor(Math.random()*2)]
+      this.n = Math.floor(Math.random()*this.d) + this.d + 1;
       this.m = Math.floor(Math.random()*this.d) + 1;
       this.ans = null;
     },
