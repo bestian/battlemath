@@ -26,18 +26,21 @@
       content-class="bg-grey-1"
     >
       <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          難度
-        </q-item-label>
-        <q-input type="number" v-model = "d"/>
+        <q-input type="number" v-model = "d" 
+        label="難度"/>
+        <q-select
+        filled
+        v-model="multiple"
+        multiple
+        :options="options"
+        label="算法"
+        style="width: 250px"
+      />
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      <router-view :d = "d" />
+      <router-view :d = "d" :types="multiple" />
     </q-page-container>
   </q-layout>
 </template>
@@ -48,7 +51,9 @@ export default {
   data () {
     return {
       leftDrawerOpen: false,
-      d: 10
+      d: 10,
+      multiple: ['+', '-'],
+      options: ['+', '-', '×']
     }
   }
 }

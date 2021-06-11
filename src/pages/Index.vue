@@ -4,8 +4,9 @@
       <q-linear-progress :value="time / 100" color="warning" class="q-mt-md" />
       <h4>您的分數:{{you}}</h4>
       <h4>敵人的分數:{{enemy}}</h4>
-      <h3>{{n}} {{ type == 'p' ? '+' : '-'}} {{m}} = ?</h3>
-      <q-input type="number" v-model="ans" @input = "check()"/>
+      <h3>{{n}} {{ type }} {{m}} = ?</h3>
+      <q-input type="number" v-model="ans" @input = "check()"  
+        label="您的答案"/>
       <q-btn color="primary" size ="xl" v-if = "win" @click="again()">你勝利了，按此重來</q-btn>
     </div>
   </q-page>
@@ -14,7 +15,7 @@
 <script>
 export default {
   name: 'PageIndex',
-  props: ['d'],
+  props: ['d', 'types'],
   data() {
     return {
       time: 0,
@@ -24,20 +25,27 @@ export default {
       m:4,
       ans: null,
       win: false,
-      type: 'p'
+      type: '+'
     }
   },
   methods: {
     check() {
-      if (this.type == 'p') {
+      if (this.type == '+') {
         if (this.ans == this.n + this.m) {
           this.you++;
           this.time = 0;
           this.reset()
         }
       }
-      if (this.type == 'm') {
+      if (this.type == '-') {
         if (this.ans == this.n - this.m) {
+          this.you++;
+          this.time = 0;
+          this.reset()
+        }
+      }
+      if (this.type == '×') {
+        if (this.ans == this.n * this.m) {
           this.you++;
           this.time = 0;
           this.reset()
@@ -48,11 +56,14 @@ export default {
       }
     },
     again() {
+      this.you = 0
+      this.enemy = 0
+      this.time = 0
       this.win = false
       this.reset()
     },
     reset() {
-      this.type = ['p','m'][Math.floor(Math.random()*2)]
+      this.type = this.types[Math.floor(Math.random()*this.types.length)]
       this.n = Math.floor(Math.random()*this.d) + this.d + 1;
       this.m = Math.floor(Math.random()*this.d) + 1;
       this.ans = null;
