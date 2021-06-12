@@ -2,8 +2,12 @@
   <q-page>
     <div class="container">
       <q-linear-progress :value="time / 100" color="warning" class="q-mt-md" />
-      <h4>您的分數:{{you}}</h4>
-      <h4>敵人的分數:{{enemy}}</h4>
+      <h4><q-img src="../assets/you.png" 
+      spinner-color="white"
+      style="height: 100px; max-width: 100px"/> 您的分數:{{you}}</h4>
+      <h4><q-img src="../assets/enemy.png" 
+      spinner-color="white"
+      style="height: 100px; max-width: 100px"/>敵人的分數:{{enemy}}</h4>
       <h3>{{n}} {{ type }} {{m}} = ?</h3>
       <q-input type="number" v-model="ans" @input = "check()"  
         label="您的答案"/>
